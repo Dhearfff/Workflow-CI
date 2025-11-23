@@ -1,7 +1,9 @@
-name: workflow-ci-project
+name: student-performance-project
 
 conda_env: conda.yaml
 
 entry_points:
   main:
-    command: "python modelling.py"
+    parameters:
+      data_path: {type: str, default: "StudentsPerformance_preprocess.csv"}
+    command: "python modelling.py --data_path {data_path}"
