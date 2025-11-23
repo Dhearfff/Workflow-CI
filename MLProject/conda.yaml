@@ -3,9 +3,9 @@ channels:
   - conda-forge
 dependencies:
   - python=3.10
+  - scikit-learn
+  - pandas
   - pip
   - pip:
       - mlflow
-      - scikit-learn
-      - pandas
       - joblib
