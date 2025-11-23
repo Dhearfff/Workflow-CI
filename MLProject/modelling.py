@@ -10,10 +10,10 @@ import mlflow.sklearn
 
 def train_model(preprocessed_path="StudentsPerformance_preprocessing.csv"):
 
-    # 1. Aktifkan autolog (WAJIB UNTUK BASIC)
+    # Aktifkan autolog
     mlflow.sklearn.autolog()
 
-    # 2. Mulai run MLflow
+    # Mulai MLflow run
     with mlflow.start_run():
 
         # --- LOAD DATA ---
@@ -42,8 +42,12 @@ def train_model(preprocessed_path="StudentsPerformance_preprocessing.csv"):
         print("Classification Report:")
         print(classification_report(y_test, y_pred))
 
-    print("\nTracking MLflow selesai! Buka MLflow UI untuk melihat hasil run.")
+        # ======================================================
+        #  🔥 WAJIB: SIMPAN MODEL KE ARTIFACTS MLflow SECARA MANUAL
+        # ======================================================
+        mlflow.sklearn.log_model(model, artifact_path="model")
 
+    print("\nTracking MLflow selesai. Model tersimpan di artifacts/model")
 
 if __name__ == "__main__":
     train_model()
