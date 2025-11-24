@@ -23,7 +23,7 @@ jobs:
       run: |
         pip install -r MLProject/requirements.txt
 
-    - name: Run MLflow Project
+    - name: Run training script
       run: |
         cd MLProject
-        mlflow run .
+        python modelling.py
