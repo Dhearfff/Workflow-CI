@@ -10,16 +10,15 @@ import mlflow.sklearn
 
 def train_model(preprocessed_path="StudentsPerformance_preprocessing.csv"):
 
-    # Matikan autolog karena Python 3.13 sering bermasalah
+    # PASTIKAN AUTOLOG MATI TOTAL
     mlflow.autolog(disable=True)
 
-    # Mulai MLflow run
     with mlflow.start_run():
 
-        # --- LOAD DATA ---
+        # LOAD DATA
         df = pd.read_csv(preprocessed_path)
 
-        # --- SPLIT FITUR & LABEL ---
+        # SPLIT
         X = df.drop("pass_math", axis=1)
         y = df["pass_math"]
 
@@ -27,32 +26,28 @@ def train_model(preprocessed_path="StudentsPerformance_preprocessing.csv"):
             X, y, test_size=0.2, random_state=42
         )
 
-        # --- MODEL ---
+        # MODEL
         model = RandomForestClassifier(random_state=42)
-
-        # --- TRAIN ---
         model.fit(X_train, y_train)
 
-        # --- EVALUASI ---
+        # EVALUASI
         y_pred = model.predict(X_test)
         acc = accuracy_score(y_test, y_pred)
 
-        print("=== MODEL PERFORMANCE ===")
-        print(f"Accuracy: {acc}")
-        print("Classification Report:")
+        print("Accuracy:", acc)
         print(classification_report(y_test, y_pred))
 
-        # -----------------------------------------
-        #  LOG METRIC MANUAL
-        # -----------------------------------------
+
+        mlflow.log_param("random_state", 42)
         mlflow.log_metric("accuracy", acc)
 
-        # -----------------------------------------
-        #  SIMPAN MODEL MANUAL (WAJIB)
-        # -----------------------------------------
-        mlflow.sklearn.log_model(model, "model")
+        # INI YANG PALING PENTING:
+        mlflow.sklearn.log_model(
+            sk_model=model,
+            artifact_path="model"
+        )
 
-    print("\nTracking MLflow selesai. Model tersimpan di artifacts/model")
+    print("Model berhasil disimpan di artifacts/model")
 
 if __name__ == "__main__":
     train_model()
