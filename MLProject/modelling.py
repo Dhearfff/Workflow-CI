@@ -10,8 +10,8 @@ import mlflow.sklearn
 
 def train_model(preprocessed_path="StudentsPerformance_preprocessing.csv"):
 
-    # Aktifkan autolog
-    mlflow.sklearn.autolog()
+    # Matikan autolog karena Python 3.13 sering bermasalah
+    mlflow.autolog(disable=True)
 
     # Mulai MLflow run
     with mlflow.start_run():
@@ -42,10 +42,15 @@ def train_model(preprocessed_path="StudentsPerformance_preprocessing.csv"):
         print("Classification Report:")
         print(classification_report(y_test, y_pred))
 
-        # ======================================================
-        #  🔥 WAJIB: SIMPAN MODEL KE ARTIFACTS MLflow SECARA MANUAL
-        # ======================================================
-        mlflow.sklearn.log_model(model, artifact_path="model")
+        # -----------------------------------------
+        #  LOG METRIC MANUAL
+        # -----------------------------------------
+        mlflow.log_metric("accuracy", acc)
+
+        # -----------------------------------------
+        #  SIMPAN MODEL MANUAL (WAJIB)
+        # -----------------------------------------
+        mlflow.sklearn.log_model(model, "model")
 
     print("\nTracking MLflow selesai. Model tersimpan di artifacts/model")
 
