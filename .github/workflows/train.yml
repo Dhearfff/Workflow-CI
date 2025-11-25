@@ -1,8 +1,9 @@
-name: Train-MLflow-Project
+name: Train ML Model
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -11,7 +12,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -21,10 +22,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install mlflow==2.18.0
         pip install -r MLProject/requirements.txt
 
     - name: Run MLflow Project
       run: |
-        cd MLProject
-        mlflow run .
+        mlflow run MLProject --env-manager=local
+        # kalau mau eksplisit pakai parameter:
+        # mlflow run MLProject --env-manager=local -P data_path=StudentsPerformance_preprocessing.csv
