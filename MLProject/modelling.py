@@ -16,8 +16,8 @@ def train_model(preprocessed_path):
     """
 
     # Tracking harus ke folder aman di GitHub Actions
-    mlflow.set_tracking_uri("file:/tmp/mlruns")
-    mlflow.set_experiment("student-performance-pass-math")
+    # mlflow.set_tracking_uri("file:/tmp/mlruns")
+    # mlflow.set_experiment("student-performance-pass-math")
 
     # AUTLOG DIMATIKAN karena menyebabkan error di GitHub Actions
     # mlflow.sklearn.autolog(log_models=True)
